@@ -8,9 +8,9 @@ import java.util.List;
 
 public class UserDao {
     String driver = "org.postgresql.Driver";
-    String jdbcURL = "jdbc:postgresql://localhost:5432/postgres";
+    String jdbcURL = "jdbc:postgresql://192.168.100.26:5432/postgres";
     String jdbcUsername = "postgres";
-    String jdbcPassword = "postgres";
+    String jdbcPassword = "password";
 
     private static final String INSERT_USERS_SQL = "INSERT INTO users" + "  (firstname, lastname, age) VALUES " +
             " (?, ?, ?);";

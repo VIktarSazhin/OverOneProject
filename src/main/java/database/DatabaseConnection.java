@@ -13,23 +13,15 @@ public class DatabaseConnection {
         else {
             try {
                 String driver = "org.postgresql.Driver";
-                String url = "jdbc:postgresql://localhost:5432/postgres";
+                String url = "jdbc:postgresql://192.168.100.26:5432/postgres";
                 String user = "postgres";
-                String password = "postgres";
+                String password = "password";
                 Class.forName(driver);
                 connection = DriverManager.getConnection(url, user, password);
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
             return connection;
-        }
-    }
-
-    public static void closeConnection(Connection conn) {
-        try {
-            conn.close();
-        } catch (Exception e) {
-            e.getMessage();
         }
     }
 }

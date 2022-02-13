@@ -10,18 +10,6 @@
 
 <body>
 
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: tomato">
-        <div>
-            <a href="https://github.com/VIktarSazhin/Tomcattest" class="navbar-brand"> User
-                Management</a>
-        </div>
-
-        <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/list" class="nav-link">Users</a></li>
-        </ul>
-    </nav>
-</header>
 <br>
 
 <div class="row">
