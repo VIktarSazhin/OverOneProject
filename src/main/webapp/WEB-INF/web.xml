@@ -6,7 +6,6 @@
 
   <display-name>tomcattest</display-name>
   <servlet>
-    <description></description>
     <display-name>UserServlet</display-name>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>servlet.UserServlet</servlet-class>

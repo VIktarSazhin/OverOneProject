@@ -7,35 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
-    String driver = "org.postgresql.Driver";
-    String jdbcURL = "jdbc:postgresql://192.168.100.26:5432/postgres";
-    String jdbcUsername = "postgres";
-    String jdbcPassword = "password";
-
-    private static final String INSERT_USERS_SQL = "INSERT INTO users" + "  (firstname, lastname, age) VALUES " +
-            " (?, ?, ?);";
-
-    private static final String SELECT_USER_BY_ID = "SELECT id,firstname,lastname,age FROM users WHERE id =?";
-    private static final String SELECT_ALL_USERS = "SELECT * FROM users";
-    private static final String DELETE_USERS_SQL = "DELETE FROM users WHERE id = ?;";
-    private static final String UPDATE_USERS_SQL = "UPDATE users SET firstname = ?, lastname= ?, age =? WHERE id = ?;";
 
     public UserDao() {}
 
     protected Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection("jdbc:postgresql://192.168.100.26:5432/postgres", "postgres", "password");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
     }
 
-    public void insertUser(User user) throws SQLException {
-        System.out.println(INSERT_USERS_SQL);
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
+    public void insertUser(User user) {
+//        System.out.println(INSERT_USERS_SQL);
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (firstname, lastname, age) VALUES " +
+                " (?, ?, ?);")) {
             preparedStatement.setString(1, user.getFirstname());
             preparedStatement.setString(2, user.getLastname());
             preparedStatement.setInt(3, user.getAge());
@@ -49,7 +38,7 @@ public class UserDao {
     public User selectUser(int id) {
         User user = null;
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,firstname,lastname,age FROM users WHERE id =?");) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -69,7 +58,7 @@ public class UserDao {
     public List<User> selectAllUsers() {
         List < User > users = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -87,7 +76,7 @@ public class UserDao {
 
     public boolean deleteUser(int id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id = ?;");) {
             statement.setInt(1, id);
             rowDeleted = statement.executeUpdate() > 0;
         }
@@ -96,7 +85,7 @@ public class UserDao {
 
     public boolean updateUser(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET firstname = ?, lastname= ?, age =? WHERE id = ?;");) {
             statement.setString(1, user.getFirstname());
             statement.setString(2, user.getLastname());
             statement.setInt(3, user.getAge());
