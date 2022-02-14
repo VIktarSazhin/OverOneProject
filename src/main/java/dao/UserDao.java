@@ -14,7 +14,7 @@ public class UserDao {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://192.168.100.26:5432/postgres", "postgres", "password");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "postgres");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
