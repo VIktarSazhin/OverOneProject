@@ -2,6 +2,8 @@ package servlet;
 
 import dao.UserDao;
 import entity.User;
+import service.UserService;
+import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,10 +18,12 @@ import java.util.List;
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private UserDao userDAO;
+    private UserDao userDao;
+    private UserService userService;
 
     public void init() {
-        userDAO = new UserDao();
+        userDao = new UserDao();
+        userService = new UserServiceImpl(userDao);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -59,7 +63,7 @@ public class UserServlet extends HttpServlet {
 
     private void listUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        List<User> listUser = userDAO.selectAllUsers();
+        List<User> listUser = userService.selectAllUsers();
         request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
         dispatcher.forward(request, response);
@@ -74,7 +78,7 @@ public class UserServlet extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        User existingUser = userDAO.selectUser(id);
+        User existingUser = userService.selectUser(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
         request.setAttribute("user", existingUser);
         dispatcher.forward(request, response);
@@ -86,7 +90,7 @@ public class UserServlet extends HttpServlet {
         double spendTime = Double.parseDouble(request.getParameter("spend_time"));
         String activities = request.getParameter("activities");
         User newUser = new User(userName, spendTime, activities);
-        userDAO.insertUser(newUser);
+        userService.insertUser(newUser);
         response.sendRedirect("list");
     }
 
@@ -98,14 +102,14 @@ public class UserServlet extends HttpServlet {
         String activities = request.getParameter("activities");
 
         User book = new User(id, userName, spendTime, activities);
-        userDAO.updateUser(book);
+        userService.updateUser(book);
         response.sendRedirect("list");
     }
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        userDAO.deleteUser(id);
+        userService.deleteUser(id);
         response.sendRedirect("list");
     }
 }
