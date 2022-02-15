@@ -5,7 +5,7 @@
     <title>JSP User Example</title>
 </head>
 <body>
-<h1>User Manager Application</h1>
+<h1>User Manager Application Test</h1>
 <a href="user-list.jsp">View list of all users</a>
 <a href="user-form.jsp">Add new user</a>
 
