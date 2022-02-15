@@ -34,7 +34,7 @@
                                 Edit User
                             </c:if>
                             <c:if test="${user == null}">
-                                Add New User
+                                Add New User Activity
                             </c:if>
                         </h2>
                     </caption>
@@ -44,15 +44,11 @@
                     </c:if>
 
                     <fieldset class="form-group">
-                        <label>User Firstname</label> <input type="text" value="<c:out value='${user.firstname}' />" class="form-control" name="firstname" required="required">
+                        <label>UserName</label> <input type="text" value="<c:out value='${user.userName}' />" class="form-control" name="user_name" required="required">
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <label>User Lastname</label> <input type="text" value="<c:out value='${user.lastname}' />" class="form-control" name="lastname">
-                    </fieldset>
-
-                    <fieldset class="form-group">
-                        <label>User Age</label> <input type="text" value="<c:out value='${user.age}' />" class="form-control" name="age">
+                        <label>Activity</label> <input type="text" value="<c:out value='${user.activity}' />" class="form-control" name="activities">
                     </fieldset>
 
                     <button type="submit" class="btn btn-success">Save</button>

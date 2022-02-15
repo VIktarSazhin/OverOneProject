@@ -3,6 +3,7 @@ package dao;
 import entity.User;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +23,10 @@ public class UserDao {
     }
 
     public void insertUser(User user) {
-//        System.out.println(INSERT_USERS_SQL);
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (firstname, lastname, age) VALUES " +
-                " (?, ?, ?);")) {
-            preparedStatement.setString(1, user.getFirstname());
-            preparedStatement.setString(2, user.getLastname());
-            preparedStatement.setInt(3, user.getAge());
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, activities, time) VALUES " +
+                " (?, ?, now());")) {
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(2, user.getActivity());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -38,16 +37,15 @@ public class UserDao {
     public User selectUser(int id) {
         User user = null;
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,firstname,lastname,age FROM users WHERE id =?");) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,user_name,time,activities FROM users WHERE id =?");) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                String firstname = rs.getString("firstname");
-                String lastname = rs.getString("lastname");
-                int age = rs.getInt("age");
-                user = new User(id, firstname, lastname, age);
+                String userName = rs.getString("user_name");
+                String activities = rs.getString("activities");
+                user = new User(id, userName, activities);
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -63,10 +61,10 @@ public class UserDao {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String firstname = rs.getString("firstname");
-                String lastname = rs.getString("lastname");
-                int age = rs.getInt("age");
-                users.add(new User(id, firstname, lastname, age));
+                String userName = rs.getString("user_name");
+                Timestamp time = rs.getTimestamp("time");
+                String activities = rs.getString("activities");
+                users.add(new User(id, userName, time, activities));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -85,10 +83,9 @@ public class UserDao {
 
     public boolean updateUser(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET firstname = ?, lastname= ?, age =? WHERE id = ?;");) {
-            statement.setString(1, user.getFirstname());
-            statement.setString(2, user.getLastname());
-            statement.setInt(3, user.getAge());
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET user_name = ?, activities= ? WHERE id = ?;");) {
+            statement.setString(1, user.getUserName());
+            statement.setString(2, user.getActivity());
             statement.setInt(4, user.getId());
 
             rowUpdated = statement.executeUpdate() > 0;

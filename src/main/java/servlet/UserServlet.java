@@ -82,10 +82,9 @@ public class UserServlet extends HttpServlet {
 
     private void insertUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        int age = Integer.parseInt(request.getParameter("age"));
-        User newUser = new User(firstname, lastname, age);
+        String userName = request.getParameter("user_name");
+        String activities = request.getParameter("activities");
+        User newUser = new User(userName, activities);
         userDAO.insertUser(newUser);
         response.sendRedirect("list");
     }
@@ -93,11 +92,10 @@ public class UserServlet extends HttpServlet {
     private void updateUser(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        int age = Integer.parseInt(request.getParameter("age"));
+        String userName = request.getParameter("user_name");
+        String activities = request.getParameter("activities");
 
-        User book = new User(id, firstname, lastname, age);
+        User book = new User(id, userName, activities);
         userDAO.updateUser(book);
         response.sendRedirect("list");
     }

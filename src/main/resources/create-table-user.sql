@@ -1,6 +1,6 @@
 CREATE TABLE users (
-    id SERIAL NOT NULL  PRIMARY KEY,
-    firstname VARCHAR (45) NOT NULL,
-    lastname VARCHAR(45) NOT NULL,
-    age INT NOT NULL
+                       id serial not null primary key,
+                       user_name varchar(100) not null,
+                       time timestamp DEFAULT CURRENT_TIMESTAMP,
+                       activities text not null
 );

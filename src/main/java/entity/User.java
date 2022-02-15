@@ -1,22 +1,30 @@
 package entity;
 
+
+import java.sql.Date;
+import java.sql.Timestamp;
+
 public class User {
     private int id;
-    private String firstname;
-    private String lastname;
-    private int age;
+    private String userName;
+    private Timestamp time;
+    private String activity;
 
-    public User(int id, String firstname, String lastname, int age) {
+    public User(int id, String userName, Timestamp time, String activity) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.age = age;
+        this.userName = userName;
+        this.time = time;
+        this.activity = activity;
     }
 
-    public User(String firstname, String lastname, int age) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.age = age;
+    public User(int id, String userName, String activity) {
+        this.userName = userName;
+        this.activity = activity;
+    }
+
+    public User(String userName, String activity) {
+        this.userName = userName;
+        this.activity = activity;
     }
 
     public User() {
@@ -30,37 +38,37 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public Timestamp getTime() {
+        return time;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
-    public int getAge() {
-        return age;
+    public String getActivity() {
+        return activity;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", age=" + age +
+                ", userName='" + userName + '\'' +
+                ", time=" + time +
+                ", activity='" + activity + '\'' +
                 '}';
     }
 }
