@@ -11,19 +11,20 @@
 <br>
 <div class="row">
     <div class="container">
-        <h3 class="text-center">List of Users Activities</h3>
+        <h3 class="text-center">List of users activities</h3>
         <hr>
         <div class="container text-left">
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add New User Activity</a>
+            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add new user activity</a>
         </div>
         <br>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>ID</th>
-                <th>UserName</th>
-                <th>Time</th>
+                <th>User Name</th>
+                <th>Spend Time</th>
                 <th>Activities</th>
+                <th>Time to add activity</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -37,10 +38,13 @@
                         <c:out value="${user.userName}" />
                     </td>
                     <td>
-                        <c:out value="${user.time}" />
+                        <c:out value="${user.timeToSpend}" />
                     </td>
                     <td>
                         <c:out value="${user.activity}" />
+                    </td>
+                    <td>
+                        <c:out value="${user.timeToAdd}" />
                     </td>
                     <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="delete?id=<c:out value='${user.id}' />">Delete</a></td>
                 </tr>

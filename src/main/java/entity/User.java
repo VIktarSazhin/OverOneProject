@@ -1,33 +1,36 @@
 package entity;
 
-
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class User {
     private int id;
     private String userName;
-    private Timestamp time;
+    private double timeToSpend;
     private String activity;
+    private Timestamp timeToAdd;
 
-    public User(int id, String userName, Timestamp time, String activity) {
+    public User(int id, String userName, double timeToSpend, String activity, Timestamp timeToAdd) {
         this.id = id;
         this.userName = userName;
-        this.time = time;
+        this.timeToSpend = timeToSpend;
         this.activity = activity;
-    }
-
-    public User(int id, String userName, String activity) {
-        this.userName = userName;
-        this.activity = activity;
-    }
-
-    public User(String userName, String activity) {
-        this.userName = userName;
-        this.activity = activity;
+        this.timeToAdd = timeToAdd;
     }
 
     public User() {
+    }
+
+    public User(int id, String userName, double timeToSpend, String activity) {
+        this.id = id;
+        this.userName = userName;
+        this.timeToSpend = timeToSpend;
+        this.activity = activity;
+    }
+
+    public User(String userName, double spendTime, String activities) {
+        this.userName = userName;
+        this.timeToSpend = spendTime;
+        this.activity = activities;
     }
 
     public int getId() {
@@ -46,12 +49,20 @@ public class User {
         this.userName = userName;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public Timestamp getTimeToAdd() {
+        return timeToAdd;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setTimeToAdd(Timestamp timeToAdd) {
+        this.timeToAdd = timeToAdd;
+    }
+
+    public double getTimeToSpend() {
+        return timeToSpend;
+    }
+
+    public void setTimeToSpend(double timeToSpend) {
+        this.timeToSpend = timeToSpend;
     }
 
     public String getActivity() {
@@ -67,7 +78,8 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
-                ", time=" + time +
+                ", timeToAdd=" + timeToAdd +
+                ", timeToSpend=" + timeToSpend +
                 ", activity='" + activity + '\'' +
                 '}';
     }

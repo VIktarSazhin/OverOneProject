@@ -23,10 +23,11 @@ public class UserDao {
     }
 
     public void insertUser(User user) {
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, activities, time) VALUES " +
-                " (?, ?, now());")) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities, time_to_add) VALUES " +
+                " (?, ?, ?, now());")) {
             preparedStatement.setString(1, user.getUserName());
-            preparedStatement.setString(2, user.getActivity());
+            preparedStatement.setDouble(2, user.getTimeToSpend());
+            preparedStatement.setString(3, user.getActivity());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -37,15 +38,16 @@ public class UserDao {
     public User selectUser(int id) {
         User user = null;
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,user_name,time,activities FROM users WHERE id =?");) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,user_name,spend_time,activities,time_to_add FROM users WHERE id =?");) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 String userName = rs.getString("user_name");
+                double spendTime = rs.getDouble("spend_time");
                 String activities = rs.getString("activities");
-                user = new User(id, userName, activities);
+                user = new User(id, userName, spendTime,activities);
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -62,9 +64,10 @@ public class UserDao {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String userName = rs.getString("user_name");
-                Timestamp time = rs.getTimestamp("time");
+                double spendTime = rs.getDouble("spend_time");
                 String activities = rs.getString("activities");
-                users.add(new User(id, userName, time, activities));
+                Timestamp timeToAdd = rs.getTimestamp("time_to_add");
+                users.add(new User(id, userName, spendTime, activities, timeToAdd));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -83,9 +86,10 @@ public class UserDao {
 
     public boolean updateUser(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET user_name = ?, activities= ? WHERE id = ?;");) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET user_name = ?, spend_time = ?, activities = ?, time_to_add = now() WHERE id = ?;");) {
             statement.setString(1, user.getUserName());
-            statement.setString(2, user.getActivity());
+            statement.setDouble(2, user.getTimeToSpend());
+            statement.setString(3, user.getActivity());
             statement.setInt(4, user.getId());
 
             rowUpdated = statement.executeUpdate() > 0;

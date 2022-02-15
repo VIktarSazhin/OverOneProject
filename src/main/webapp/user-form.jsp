@@ -31,10 +31,10 @@
                     <caption>
                         <h2>
                             <c:if test="${user != null}">
-                                Edit User
+                                Edit user activity
                             </c:if>
                             <c:if test="${user == null}">
-                                Add New User Activity
+                                Add new user activity
                             </c:if>
                         </h2>
                     </caption>
@@ -44,8 +44,12 @@
                     </c:if>
 
                     <fieldset class="form-group">
-                        <label>UserName</label> <input type="text" value="<c:out value='${user.userName}' />" class="form-control" name="user_name" required="required">
+                        <label>User Name</label> <input type="text" value="<c:out value='${user.userName}' />" class="form-control" name="user_name" required="required">
                     </fieldset>
+
+                        <fieldset class="form-group">
+                            <label>Spend Time</label> <input type="text" value="<c:out value='${user.timeToSpend}' />" class="form-control" name="spend_time">
+                        </fieldset>
 
                     <fieldset class="form-group">
                         <label>Activity</label> <input type="text" value="<c:out value='${user.activity}' />" class="form-control" name="activities">
