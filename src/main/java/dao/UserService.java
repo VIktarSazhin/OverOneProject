@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao {
+public class UserService {
 
-    public UserDao() {}
+    public UserService() {}
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -23,7 +23,8 @@ public class UserDao {
     }
 
     public void insertUser(User user) {
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities, time_to_add) VALUES " +
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities, time_to_add) VALUES " +
                 " (?, ?, ?, now());")) {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setDouble(2, user.getTimeToSpend());

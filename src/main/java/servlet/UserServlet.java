@@ -1,8 +1,7 @@
 package servlet;
 
-import dao.UserDao;
+import dao.UserService;
 import entity.User;
-import service.UserService;
 import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -18,11 +17,10 @@ import java.util.List;
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private UserDao userDao;
-    private UserService userService;
+    private service.UserService userService;
 
     public void init() {
-        userDao = new UserDao();
+        UserService userDao = new UserService();
         userService = new UserServiceImpl(userDao);
     }
 
