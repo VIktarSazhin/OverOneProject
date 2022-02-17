@@ -20,12 +20,10 @@ import service.TestToSendJson;
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private service.UserService userService;
-
+    private UserDao userDAO;
 
     public void init() {
-        UserDao userDao = new UserDao();
-        userService = new UserServiceImpl(userDao);
+        userDAO = new UserDao();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,10 +32,8 @@ public class UserServlet extends HttpServlet {
     }
 
     @SneakyThrows
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getServletPath();
-
         try {
             switch (action) {
                 case "/new":
@@ -75,7 +71,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void listUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-        List<User> listUser = userService.selectAllUsers();
+        List<User> listUser = userDAO.selectAllUsers();
         request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
         dispatcher.forward(request, response);
@@ -88,7 +84,7 @@ public class UserServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        User existingUser = userService.selectUser(id);
+        User existingUser = userDAO.selectUser(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
         request.setAttribute("user", existingUser);
         dispatcher.forward(request, response);
@@ -99,7 +95,7 @@ public class UserServlet extends HttpServlet {
         double spendTime = Double.parseDouble(request.getParameter("spend_time"));
         String activities = request.getParameter("activities");
         User newUser = new User(userName, spendTime, activities);
-        userService.insertUser(newUser);
+        userDAO.insertUser(newUser);
         response.sendRedirect("list");
     }
 
@@ -110,13 +106,13 @@ public class UserServlet extends HttpServlet {
         String activities = request.getParameter("activities");
 
         User book = new User(id, userName, spendTime, activities);
-        userService.updateUser(book);
+        userDAO.updateUser(book);
         response.sendRedirect("list");
     }
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        userService.deleteUser(id);
+        userDAO.deleteUser(id);
         response.sendRedirect("list");
     }
 }

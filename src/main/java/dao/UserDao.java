@@ -22,12 +22,10 @@ public class UserDao {
     }
 
     public void insertUser(User user) {
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities) VALUES " +
-                " (?, ?, ?);")) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "(user_name, spend_time, activities) VALUES " + " (?, ?, ?);")) {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setDouble(2, user.getTimeToSpend());
             preparedStatement.setString(3, user.getActivity());
-            System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             printSQLException(e);

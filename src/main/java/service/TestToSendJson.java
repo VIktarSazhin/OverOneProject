@@ -1,8 +1,5 @@
 package service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,36 +24,21 @@ public class TestToSendJson {
 
         String line = "";
         try{
-            String fileName = "D:\\Progects\\Tomcattest\\src\\main\\resources\\output.json";
+            String fileName = "src/main/resources/output.json";
             Path path = Paths.get(fileName);
             Scanner scanner = new Scanner(path);
-            //читаем построчно
             while(scanner.hasNextLine()){
                 line = scanner.nextLine();
             }
+            scanner.close();
         } catch (IOException e){
             e.printStackTrace();
         }
         return line;
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(readUsingScanner());
-//    }
-
-//    public static String readUsingScanner()  {
-//        String line = "";
-//        try{
-//            String fileName = "src/main/resources/output.json";
-//            Path path = Paths.get(fileName);
-//            Scanner scanner = new Scanner(path);
-//            //читаем построчно
-//            while(scanner.hasNextLine()){
-//                line = scanner.nextLine();
-//            }
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//        return line;
-//    }
+    public static void main(String[] args) throws Exception {
+        TestToGetJsonFromDB.create();
+        System.out.println(getJsonToString());
+    }
 }
