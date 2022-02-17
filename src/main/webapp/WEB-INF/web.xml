@@ -6,12 +6,12 @@
 
   <display-name>tomcattest</display-name>
   <servlet>
-    <display-name>ServletDriver</display-name>
-    <servlet-name>ServletDriver</servlet-name>
-    <servlet-class>command.ServletDriver</servlet-class>
+    <display-name>UserServlet</display-name>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>servlet.UserServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ServletDriver</servlet-name>
-    <url-pattern>/ServletDriver</url-pattern>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/UserServlet</url-pattern>
   </servlet-mapping>
 </web-app>
