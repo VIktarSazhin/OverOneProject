@@ -12,8 +12,7 @@
 <body>
 
 <p>
-    <% String json = TestToSendJson.getJsonToString(); %>
-    <%= json%>
+    <a href="sendJson">Get Json response from server</a>
 </p>
 
 </body>

@@ -13,8 +13,8 @@ import java.sql.Statement;
 public class TestToGetJsonFromDB {
     public static ResultSet RetrieveData() throws Exception {
         DriverManager.registerDriver(new org.postgresql.Driver());
-        String mysqlUrl = "jdbc:postgresql://34.116.221.99:5432/postgres";
-        Connection con = DriverManager.getConnection(mysqlUrl, "postgres", "password");
+        String mysqlUrl = "jdbc:postgresql://localhost:5432/postgres";
+        Connection con = DriverManager.getConnection(mysqlUrl, "postgres", "postgres");
         System.out.println("Connection established......");
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("Select * from users");
