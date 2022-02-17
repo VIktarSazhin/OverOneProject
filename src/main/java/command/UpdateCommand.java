@@ -1,6 +1,6 @@
 package command;
 
-import dao.UserService;
+import dao.UserDao;
 import entity.User;
 
 import javax.servlet.RequestDispatcher;
@@ -11,19 +11,19 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class UpdateCommand implements Command{
-    private final UserService userService;
+    private final UserDao userDao;
 
-    public UpdateCommand(UserService userDao) {
-        this.userService = userDao;
+    public UpdateCommand(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        User existingUser = userService.selectUser(id);
+        User existingUser = userDao.selectUser(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
         request.setAttribute("user", existingUser);
         dispatcher.forward(request, response);
-        return null;
+        return "update";
     }
 }

@@ -3,13 +3,12 @@ package dao;
 import entity.User;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService {
+public class UserDao {
 
-    public UserService() {}
+    public UserDao() {}
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -23,9 +22,8 @@ public class UserService {
     }
 
     public void insertUser(User user) {
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities, time_to_add) VALUES " +
-                " (?, ?, ?, now());")) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities) VALUES " +
+                " (?, ?, ?);")) {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setDouble(2, user.getTimeToSpend());
             preparedStatement.setString(3, user.getActivity());
@@ -39,7 +37,7 @@ public class UserService {
     public User selectUser(int id) {
         User user = null;
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,user_name,spend_time,activities,time_to_add FROM users WHERE id =?");) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,user_name,spend_time,activities FROM users WHERE id =?")) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -59,7 +57,7 @@ public class UserService {
     public List<User> selectAllUsers() {
         List < User > users = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users")) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -67,8 +65,7 @@ public class UserService {
                 String userName = rs.getString("user_name");
                 double spendTime = rs.getDouble("spend_time");
                 String activities = rs.getString("activities");
-                Timestamp timeToAdd = rs.getTimestamp("time_to_add");
-                users.add(new User(id, userName, spendTime, activities, timeToAdd));
+                users.add(new User(id, userName, spendTime, activities));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -78,7 +75,7 @@ public class UserService {
 
     public boolean deleteUser(int id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id = ?;");) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id = ?;")) {
             statement.setInt(1, id);
             rowDeleted = statement.executeUpdate() > 0;
         }
@@ -87,7 +84,7 @@ public class UserService {
 
     public boolean updateUser(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET user_name = ?, spend_time = ?, activities = ?, time_to_add = now() WHERE id = ?;");) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET user_name = ?, spend_time = ?, activities = ? WHERE id = ?;")) {
             statement.setString(1, user.getUserName());
             statement.setDouble(2, user.getTimeToSpend());
             statement.setString(3, user.getActivity());

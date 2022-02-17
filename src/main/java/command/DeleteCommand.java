@@ -1,27 +1,24 @@
 package command;
 
-import dao.UserService;
+import dao.UserDao;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
 public class DeleteCommand implements Command{
-    private final UserService userService;
+    private final UserDao userDao;
 
-    public DeleteCommand(UserService userService) {
-        this.userService = userService;
+    public DeleteCommand(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        userService.deleteUser(id);
+        userDao.deleteUser(id);
         response.sendRedirect("list");
-        return null;
+        return "delete";
     }
-
-
 }

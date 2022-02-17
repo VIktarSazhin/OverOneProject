@@ -1,7 +1,9 @@
 package servlet;
 
-import dao.UserService;
+import dao.UserDao;
 import entity.User;
+import lombok.SneakyThrows;
+import service.TestToGetJsonFromDB;
 import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -13,14 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import service.TestToSendJson;
 
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private service.UserService userService;
 
+
     public void init() {
-        UserService userDao = new UserService();
+        UserDao userDao = new UserDao();
         userService = new UserServiceImpl(userDao);
     }
 
@@ -29,6 +33,7 @@ public class UserServlet extends HttpServlet {
         doGet(request, response);
     }
 
+    @SneakyThrows
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getServletPath();
@@ -50,6 +55,8 @@ public class UserServlet extends HttpServlet {
                 case "/update":
                     updateUser(request, response);
                     break;
+                case "/sendJson":
+                    sendJson(request, response);
                 default:
                     listUser(request, response);
                     break;
@@ -59,22 +66,27 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    private void listUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
+    private void sendJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TestToGetJsonFromDB.create();
+        String json = TestToSendJson.getJsonToString();
+        request.setAttribute("json", json);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("send-json.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void listUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         List<User> listUser = userService.selectAllUsers();
         request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
         dispatcher.forward(request, response);
     }
 
-    private void showNewForm(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
         dispatcher.forward(request, response);
     }
 
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         User existingUser = userService.selectUser(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
@@ -82,8 +94,7 @@ public class UserServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void insertUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+    private void insertUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         String userName = request.getParameter("user_name");
         double spendTime = Double.parseDouble(request.getParameter("spend_time"));
         String activities = request.getParameter("activities");
@@ -92,8 +103,7 @@ public class UserServlet extends HttpServlet {
         response.sendRedirect("list");
     }
 
-    private void updateUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String userName = request.getParameter("user_name");
         double spendTime = Double.parseDouble(request.getParameter("spend_time"));
@@ -104,8 +114,7 @@ public class UserServlet extends HttpServlet {
         response.sendRedirect("list");
     }
 
-    private void deleteUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         userService.deleteUser(id);
         response.sendRedirect("list");
