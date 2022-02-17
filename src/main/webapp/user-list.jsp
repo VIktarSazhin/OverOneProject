@@ -16,6 +16,10 @@
         <div class="container text-left">
             <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add new user activity</a>
         </div>
+        <hr>
+        <div class="container text-left">
+            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Send Json</a>
+        </div>
         <br>
         <table class="table table-bordered">
             <thead>
@@ -24,7 +28,6 @@
                 <th>User Name</th>
                 <th>Spend Time</th>
                 <th>Activities</th>
-                <th>Time to add activity</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -43,9 +46,7 @@
                     <td>
                         <c:out value="${user.activity}" />
                     </td>
-                    <td>
-                        <c:out value="${user.timeToAdd}" />
-                    </td>
+
                     <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="delete?id=<c:out value='${user.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
