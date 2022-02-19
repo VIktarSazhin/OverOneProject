@@ -1,9 +1,12 @@
 package command;
 
-import dao.UserService;
+import dao.UserDao;
+import service.UserService;
+import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,32 +15,30 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+@WebServlet("/")
 public class ServletDriver extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static Map<String,Command> commandMap = new HashMap<>();
     private UserService userService;
 
-    public ServletDriver(UserService userDao) {
-        this.userService = userDao;
-    }
+
 
     public void init() {
-        commandMap.put("showNew",new ShowNewCommand());
-        commandMap.put("select",new SelectCommand(userService));
-        commandMap.put("insert",new InsertCommand(userService));
-        commandMap.put("delete",new DeleteCommand(userService));
-        commandMap.put("update",new UpdateCommand(userService));
-        userService = new UserService();
+        UserDao userDao = new UserDao();
+        userService = new UserServiceImpl(userDao);
+        commandMap.put("new",new ShowNewCommand(userDao));
+        commandMap.put("select",new SelectCommand(userDao));
+        commandMap.put("insert",new InsertCommand(userDao));
+        commandMap.put("delete",new DeleteCommand(userDao));
+        commandMap.put("update",new UpdateCommand(userDao));
+        commandMap.put("edit",new ShowEditCommand(userDao));
     }
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            process(request, response);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+            doGet(request, response);
     }
 
 
@@ -56,6 +57,19 @@ public class ServletDriver extends HttpServlet {
         if (forward != null){
             RequestDispatcher disp = request.getRequestDispatcher(forward);
             disp.forward(request,response);
+        }
+//        String redirectUrl = command.execute(request,response);
+//        response.sendRedirect(redirectUrl);
+    }
+    private void redirect(Command command,HttpServletRequest request,HttpServletResponse response) throws ServletException, SQLException, IOException {
+        String redirectUrl = command.execute(request,response);
+        response.sendRedirect(redirectUrl);
+    }
+    private void forward(Command command, HttpServletResponse response,HttpServletRequest request) throws ServletException, SQLException, IOException {
+        String forward = command.execute(request,response);
+        if (forward != null) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
+            dispatcher.forward(request,response);
         }
     }
     private static Command get(String commandName){

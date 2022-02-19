@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: savit
-  Date: 12.02.2022
-  Time: 17:36
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -22,10 +16,12 @@
     <div class="card">
         <div class="card-body">
             <c:if test="${user != null}">
-            <form action="update" method="post">
+            <form action="ServletDriver" method="post">
+                    <input type="hidden" name="command" value="edit">
                 </c:if>
                 <c:if test="${user == null}">
-                <form action="insert" method="post">
+                <form action="ServletDriver" method="post">
+                        <input type="hidden" name="command" value="insert">
                     </c:if>
 
                     <caption>

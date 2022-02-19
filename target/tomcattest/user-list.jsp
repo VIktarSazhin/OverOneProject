@@ -14,7 +14,7 @@
         <h3 class="text-center">List of users activities</h3>
         <hr>
         <div class="container text-left">
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add new user activity</a>
+            <a href="<%=request.getContextPath()%>/" class="btn btn-success">Add new user activity</a>
         </div>
         <br>
         <table class="table table-bordered">

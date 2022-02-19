@@ -16,11 +16,16 @@ public class User {
     private Timestamp timeToAdd;
 
 
-    public User(String userName, double spendTime, String activities) {
-
+    public User(int id, String userName, double spendTime, String activities) {
+        this.id = id;
+        this.userName = userName;
+        this.timeToSpend = spendTime;
+        this.activity = activities;
     }
 
-    public User(int id, String userName, double spendTime, String activities) {
-
+    public User(String userName, double spendTime, String activities) {
+        this.userName = userName;
+        this.timeToSpend = spendTime;
+        this.activity = activities;
     }
 }

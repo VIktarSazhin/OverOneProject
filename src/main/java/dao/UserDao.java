@@ -7,15 +7,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService {
+public class UserDao {
 
-    public UserService() {}
+    public UserDao() {}
 
     protected Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://34.116.221.99:5432/postgres", "postgres", "password");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "020302maks");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }

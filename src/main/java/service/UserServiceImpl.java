@@ -1,15 +1,15 @@
 package service;
 
-import dao.UserService;
+import dao.UserDao;
 import entity.User;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserServiceImpl implements service.UserService {
-    private final UserService userDao;
+public class UserServiceImpl implements UserService {
+    private final UserDao userDao;
 
-    public UserServiceImpl(UserService userDao) {
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 

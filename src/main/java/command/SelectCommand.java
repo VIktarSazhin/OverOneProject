@@ -1,7 +1,9 @@
 package command;
 
-import dao.UserService;
+import dao.UserDao;
 import entity.User;
+import service.UserService;
+import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,18 +14,17 @@ import java.util.List;
 
 
 public class SelectCommand implements Command{
-    private final UserService userService;
+    private final UserDao userDao;
 
-    public SelectCommand(UserService userService) {
-        this.userService = userService;
+    public SelectCommand(UserDao userDao) {
+        this.userDao = userDao;
     }
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserService userService = new UserServiceImpl(userDao);
         List<User> listUser = userService.selectAllUsers();
         request.setAttribute("listUser", listUser);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
-        dispatcher.forward(request, response);
-        return null;
+        request.getRequestDispatcher("user-list.jsp");
+        return "user-list.jsp";
     }
 }
