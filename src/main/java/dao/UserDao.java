@@ -8,21 +8,36 @@ import java.util.List;
 
 public class UserDao {
 
-    public UserDao() {}
+    public UserDao() {
+    }
 
     protected Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "postgres");
+            connection = DriverManager.getConnection("jdbc:postgresql://35.233.143.254:5432/postgres", "postgres", "password");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
     }
 
+    public void addUserActivity(User user) {
+        selectUser(user.getId());
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities) VALUES " +
+                " (? , ?, ?);")) {
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setDouble(2, user.getTimeToSpend());
+            preparedStatement.setString(3, user.getActivity());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
     public void insertUser(User user) {
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "(user_name, spend_time, activities) VALUES " + " (?, ?, ?);")) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities) VALUES " +
+                " (?, ?, ?);")) {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setDouble(2, user.getTimeToSpend());
             preparedStatement.setString(3, user.getActivity());
@@ -37,14 +52,13 @@ public class UserDao {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,user_name,spend_time,activities FROM users WHERE id =?")) {
             preparedStatement.setInt(1, id);
-            System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 String userName = rs.getString("user_name");
                 double spendTime = rs.getDouble("spend_time");
                 String activities = rs.getString("activities");
-                user = new User(id, userName, spendTime,activities);
+                user = new User(id, userName, spendTime, activities);
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -53,10 +67,9 @@ public class UserDao {
     }
 
     public List<User> selectAllUsers() {
-        List < User > users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users")) {
-            System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -69,6 +82,44 @@ public class UserDao {
             printSQLException(e);
         }
         return users;
+    }
+
+    public List<User> selectActivityAnna() {
+        List<User> userAnnaList = new ArrayList<>();
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE user_name='Anna Zanko'")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String userAnna = resultSet.getString("user_name");
+                double spendTime = resultSet.getDouble("spend_time");
+                String activity = resultSet.getString("activities");
+                Timestamp timestamp = resultSet.getTimestamp("time_to_add");
+                userAnnaList.add(new User(id, userAnna, spendTime, activity, timestamp));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userAnnaList;
+    }
+
+    public List<User> selectActivityViktor() {
+        List<User> userViktorList = new ArrayList<>();
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE user_name='Viktor Sazhin'")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String userAnna = resultSet.getString("user_name");
+                double spendTime = resultSet.getDouble("spend_time");
+                String activity = resultSet.getString("activities");
+                Timestamp timestamp = resultSet.getTimestamp("time_to_add");
+                userViktorList.add(new User(id, userAnna, spendTime, activity, timestamp));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userViktorList;
     }
 
     public boolean deleteUser(int id) throws SQLException {

@@ -7,7 +7,6 @@ import lombok.SneakyThrows;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import service.TestToGetJsonFromDB;
-import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,7 +19,6 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import service.TestToSendJson;
 
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
@@ -41,6 +39,30 @@ public class UserServlet extends HttpServlet {
         String action = request.getServletPath();
         try {
             switch (action) {
+                case "/ActivityAnnaZanko":
+                    activityAnna(request, response);
+                    break;
+                case "/ActivitySergey":
+                    showNewForm(request, response);
+                    break;
+                case "/ActivityAlex":
+                    showNewForm(request, response);
+                    break;
+                case "/ActivityViktorSazhin":
+                    activityViktor(request, response);
+                    break;
+                case "/ActivityVitya":
+                    showNewForm(request, response);
+                    break;
+                case "/ActivityRauan":
+                    showNewForm(request, response);
+                    break;
+                case "/addActivity":
+                    addActivity(request, response);
+                    break;
+                case "/addActivityForm" :
+                    showFormToAddActivity(request, response);
+                    break;
                 case "/new":
                     showNewForm(request, response);
                     break;
@@ -66,30 +88,57 @@ public class UserServlet extends HttpServlet {
             throw new ServletException(ex);
         }
     }
+    public void showFormToAddActivity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("addActivityForm.jsp");
+        dispatcher.forward(request, response);
+    }
 
-    private void sendJson(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        TestToGetJsonFromDB.create();
-//        String json = TestToSendJson.getJsonToString();
-//        request.setAttribute("json", json);
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("send-json.jsp");
-//        dispatcher.forward(request, response);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        Gson gson = new Gson();
-        JSONObject jsonObject = new JSONObject();
-        JSONArray array = new JSONArray();
-        ResultSet rs = TestToGetJsonFromDB.RetrieveData();
-        while(rs.next()) {
-            JSONObject record = new JSONObject();
-            record.put("user_name", rs.getString("user_name"));
-            record.put("spend_time", rs.getDouble("spend_time"));
-            record.put("activities", rs.getString("activities"));
-            array.add(record);
-        }
-        jsonObject.put("Players_data", array);
-        String jsonData = gson.toJson(jsonObject);
-        try (PrintWriter out = response.getWriter()) {
+    private void activityAnna(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServletException {
+        List<User> listAnnaActivity = userDAO.selectActivityAnna();
+        request.setAttribute("listAnnaActivity", listAnnaActivity);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("activityAnna.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void activityViktor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServletException {
+        List<User> listAnnaActivity = userDAO.selectActivityViktor();
+        request.setAttribute("listViktorActivity", listAnnaActivity);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("activityViktor.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void addActivity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ServletException {
+        double spendTime = Double.parseDouble(request.getParameter("spend_time"));
+        String activities = request.getParameter("activities");
+        User newUser = new User(spendTime, activities);
+        userDAO.addUserActivity(newUser);
+        String nameActivity = "/Activity" + newUser.getUserName().replace(" ", "");
+        System.out.println(nameActivity);
+        response.sendRedirect(nameActivity);
+    }
+
+
+    private void sendJson(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            Gson gson = new Gson();
+            JSONObject jsonObject = new JSONObject();
+            JSONArray array = new JSONArray();
+            ResultSet rs = TestToGetJsonFromDB.RetrieveData();
+            while (rs.next()) {
+                JSONObject record = new JSONObject();
+                record.put("user_name", rs.getString("user_name"));
+                record.put("spend_time", rs.getDouble("spend_time"));
+                record.put("activities", rs.getString("activities"));
+                array.add(record);
+            }
+            jsonObject.put("Players_data", array);
+            String jsonData = gson.toJson(jsonObject);
+            PrintWriter out = response.getWriter();
             out.println(jsonData);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

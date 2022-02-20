@@ -13,30 +13,26 @@
     <div class="container">
         <h3 class="text-center">List of users activities</h3>
         <hr>
-        <div class="container text-left">
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add new user activity</a>
+        <div class="container text-center">
+            <a href="<%=request.getContextPath()%>/ActivityAnnaZanko" class="btn btn-success">Hanna Zenko</a>
+            <a href="<%=request.getContextPath()%>/ActivityViktorSazhin" class="btn btn-success">Viktor Sazhin</a>
+            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Alex Frost</a>
+            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Vasili Sholkov</a>
+            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Sergey Peretyagin</a>
+            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Rauan Maksutov</a>
         </div>
         <hr>
-        <div class="container text-left">
-            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Send Json</a>
-        </div>
         <br>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>User Name</th>
                 <th>Spend Time</th>
                 <th>Activities</th>
-                <th>Actions</th>
-            </tr>
             </thead>
             <tbody>
             <c:forEach var="user" items="${listUser}">
                 <tr>
-                    <td>
-                        <c:out value="${user.id}" />
-                    </td>
                     <td>
                         <c:out value="${user.userName}" />
                     </td>
@@ -46,8 +42,6 @@
                     <td>
                         <c:out value="${user.activity}" />
                     </td>
-
-                    <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="delete?id=<c:out value='${user.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -55,5 +49,4 @@
     </div>
 </div>
 </body>
-
 </html>
