@@ -1,7 +1,8 @@
-package command;
+package pattern.commands;
 
 import dao.UserDao;
 import entity.User;
+import pattern.Command;
 import service.UserService;
 import service.UserServiceImpl;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UpdateCommand implements Command{
+public class UpdateCommand implements Command {
     private final UserDao userDao;
 
     public UpdateCommand(UserDao userDao) {

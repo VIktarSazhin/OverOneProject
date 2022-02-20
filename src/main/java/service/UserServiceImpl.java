@@ -59,12 +59,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(int id) throws SQLException {
+    public void deleteUser(int id) throws SQLException {
         User user = userDao.selectUser(id);
         try {
             if (user == null) throw new NullPointerException();
 
-            return userDao.deleteUser(id);
+            userDao.deleteUser(id);
 
         }catch (NullPointerException e){
             throw new NullPointerException("not found user");
@@ -72,13 +72,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUser(User user) throws SQLException {
+    public void updateUser(User user) throws SQLException {
         User newUser = userDao.selectUser(user.getId());
         try {
             if (newUser == null) throw new IllegalArgumentException();
             if (user.getTimeToSpend() < 0 || user.getTimeToSpend() > 24) throw new NumberFormatException();
 
-            return userDao.updateUser(user);
+            userDao.updateUser(user);
 
         }catch (NumberFormatException exception){
             throw new NumberFormatException("incorrect time");

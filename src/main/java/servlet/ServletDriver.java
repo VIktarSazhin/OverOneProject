@@ -1,7 +1,8 @@
-package command;
+package servlet;
 
+import pattern.*;
 import dao.UserDao;
-import service.UserService;
+import pattern.commands.*;
 import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -19,7 +20,7 @@ import java.util.Map;
 @WebServlet("/")
 public class ServletDriver extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final Map<String,Command> commandMap = new HashMap<>();
+    private static final Map<String, Command> commandMap = new HashMap<>();
 
 
     public void init() {
@@ -53,7 +54,7 @@ public class ServletDriver extends HttpServlet {
         }
     }
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        String commandName = request.getParameter("command");
+        String commandName = request.getParameter("pattern");
         Command command = get(commandName);
         String forward = command.execute(request,response);
         if (forward != null){

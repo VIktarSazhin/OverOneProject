@@ -5,18 +5,9 @@
          version="3.0">
 
   <display-name>tomcattest</display-name>
-<!--  <servlet>-->
-<!--    <display-name>UserServlet</display-name>-->
-<!--    <servlet-name>UserServlet</servlet-name>-->
-<!--    <servlet-class>servlet.UserServlet</servlet-class>-->
-<!--  </servlet>-->
-<!--  <servlet-mapping>-->
-<!--    <servlet-name>UserServlet</servlet-name>-->
-<!--    <url-pattern>/UserServlet</url-pattern>-->
-<!--  </servlet-mapping>-->
   <servlet>
     <servlet-name>ServletDriver</servlet-name>
-    <servlet-class>command.ServletDriver</servlet-class>
+    <servlet-class>servlet.ServletDriver</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ServletDriver</servlet-name>
