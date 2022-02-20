@@ -1,7 +1,11 @@
 package dao;
 
 import entity.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,38 @@ public class UserDao {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public String getJSON() {
+        JSONObject jsonObject = new JSONObject();
+        String jsonString = "";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT user_name, spend_time, activities FROM users")) {
+            JSONArray array = new JSONArray();
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                JSONObject record = new JSONObject();
+                record.put("user_name", rs.getString("user_name"));
+                record.put("spend_time", rs.getDouble("spend_time"));
+                record.put("activities", rs.getString("activities"));
+                array.add(record);
+            }
+            jsonObject.put("Players_data", array);
+            jsonString= jsonObject.toJSONString();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
+    }
+
+    public void createFileJson(JSONObject jsonObject) {
+        try {
+            FileWriter file = new FileWriter("src/main/resources/output.json");
+            file.write(jsonObject.toJSONString());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addUserActivity(User user) {
@@ -87,7 +123,7 @@ public class UserDao {
     public List<User> selectActivityAnna() {
         List<User> userAnnaList = new ArrayList<>();
         try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE user_name='Anna Zanko'")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE user_name='Anna Zanko'")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -106,7 +142,7 @@ public class UserDao {
     public List<User> selectActivityViktor() {
         List<User> userViktorList = new ArrayList<>();
         try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE user_name='Viktor Sazhin'")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE user_name='Viktor Sazhin'")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -145,7 +181,7 @@ public class UserDao {
     }
 
     private void printSQLException(SQLException ex) {
-        for (Throwable e: ex) {
+        for (Throwable e : ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());

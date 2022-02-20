@@ -20,6 +20,7 @@ public class TestToGetJsonFromDB {
         ResultSet rs = stmt.executeQuery("Select * from users");
         return rs;
     }
+
     public static void create() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();

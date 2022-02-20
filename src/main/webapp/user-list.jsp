@@ -14,21 +14,25 @@
         <h3 class="text-center">List of users activities</h3>
         <hr>
         <div class="container text-center">
-            <a href="<%=request.getContextPath()%>/ActivityAnnaZanko" class="btn btn-success">Hanna Zenko</a>
-            <a href="<%=request.getContextPath()%>/ActivityViktorSazhin" class="btn btn-success">Viktor Sazhin</a>
-            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Alex Frost</a>
-            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Vasili Sholkov</a>
-            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Sergey Peretyagin</a>
-            <a href="<%=request.getContextPath()%>/sendJson" class="btn btn-success">Rauan Maksutov</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=AnnaListActivity" class="btn btn-danger">Anna Zenko</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=ViktorListActivity" class="btn btn-danger">Viktor Sazhin</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=RauanListActivity" class="btn btn-danger">Rauan Maksut</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=AlexListActivity" class="btn btn-danger">Alex Frost</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=VasyaListActivity" class="btn btn-danger">Vasily Sholkov</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=SergeyListActivity" class="btn btn-danger">Sergey Peretyagin</a>
         </div>
         <hr>
-        <br>
+        <div class="container text-left">
+            <a href="<%=request.getContextPath()%>/addActivityForm.jsp" class="btn btn-primary">Add new activity</a>
+        </div>
+
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>User Name</th>
                 <th>Spend Time</th>
                 <th>Activities</th>
+                <th>Date</th>
             </thead>
             <tbody>
             <c:forEach var="user" items="${listUser}">
@@ -41,6 +45,9 @@
                     </td>
                     <td>
                         <c:out value="${user.activity}" />
+                    </td>
+                    <td>
+                        <c:out value="${user.timeToAdd}" />
                     </td>
                 </tr>
             </c:forEach>

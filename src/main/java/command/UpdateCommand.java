@@ -2,6 +2,8 @@ package command;
 
 import dao.UserDao;
 import entity.User;
+import service.UserService;
+import service.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
-public class UpdateCommand implements Command{
+public class UpdateCommand implements Command {
     private final UserDao userDao;
 
     public UpdateCommand(UserDao userDao) {
@@ -18,12 +21,18 @@ public class UpdateCommand implements Command{
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+        UserService userService = new UserServiceImpl(userDao);
         int id = Integer.parseInt(request.getParameter("id"));
-        User existingUser = userDao.selectUser(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
-        request.setAttribute("user", existingUser);
-        dispatcher.forward(request, response);
-        return "update";
+        String userName = request.getParameter("user_name");
+        double spendTime = Double.parseDouble(request.getParameter("spend_time"));
+        String activities = request.getParameter("activities");
+        User newUser = new User(id, userName, spendTime, activities);
+        userService.updateUser(newUser);
+
+        List<User> listUser = userService.selectAllUsers();
+        request.setAttribute("listUser", listUser);
+        request.getRequestDispatcher("user-list.jsp");
+        return "/user-list.jsp";
     }
 }

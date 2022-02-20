@@ -7,21 +7,21 @@ import service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
-
-public class SelectCommand implements Command {
+public class ShowEditCommand implements Command {
     private final UserDao userDao;
 
-    public SelectCommand(UserDao userDao) {
+    public ShowEditCommand(UserDao userDao) {
         this.userDao = userDao;
     }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response){
+        int id = Integer.parseInt(request.getParameter("id"));
         UserService userService = new UserServiceImpl(userDao);
-        List<User> listUser = userService.selectAllUsers();
-        request.setAttribute("listUser", listUser);
-        request.getRequestDispatcher("user-list.jsp");
-        return "user-list.jsp";
+        User existingUser = userService.selectUser(id);
+        request.getRequestDispatcher("user-form.jsp");
+        request.setAttribute("user", existingUser);
+        return "user-form.jsp";
     }
 }

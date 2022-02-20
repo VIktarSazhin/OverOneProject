@@ -1,4 +1,6 @@
-<%@ page import="service.TestToSendJson" %><%--
+<%@ page import="service.TestToSendJson" %>
+<%@ page import="service.UserServiceImpl" %>
+<%@ page import="dao.UserDao" %><%--
   Created by IntelliJ IDEA.
   User: savit
   Date: 17.02.2022
@@ -12,7 +14,9 @@
 <body>
 
 <p>
-    <a href="sendJson">Get Json response from server</a>
+    <% UserServiceImpl userService = new UserServiceImpl(new UserDao()); %>
+    <% String json = userService.getJSON(); %>
+    <%= json%>
 </p>
 
 </body>
