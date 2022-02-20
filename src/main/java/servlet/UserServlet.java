@@ -60,7 +60,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void listUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
+            throws IOException, ServletException {
         List<User> listUser = userService.selectAllUsers();
         request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
@@ -74,7 +74,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
+            throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         User existingUser = userService.selectUser(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
@@ -83,7 +83,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void insertUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+            throws IOException {
         String userName = request.getParameter("user_name");
         double spendTime = Double.parseDouble(request.getParameter("spend_time"));
         String activities = request.getParameter("activities");

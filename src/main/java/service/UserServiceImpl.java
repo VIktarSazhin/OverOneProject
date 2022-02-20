@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
         try{
             if (user == null) throw new IllegalArgumentException();
             if (user.getTimeToSpend() < 0 || user.getTimeToSpend() > 24) throw new NumberFormatException();
-
+            //user.getUserName().replaceAll();
 
                 User newUser = User.builder()
                         .userName(user.getUserName())

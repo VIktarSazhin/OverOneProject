@@ -19,14 +19,12 @@ import java.util.Map;
 @WebServlet("/")
 public class ServletDriver extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static Map<String,Command> commandMap = new HashMap<>();
-    private UserService userService;
-
+    private static final Map<String,Command> commandMap = new HashMap<>();
 
 
     public void init() {
         UserDao userDao = new UserDao();
-        userService = new UserServiceImpl(userDao);
+        new UserServiceImpl(userDao);
         commandMap.put("new",new ShowNewCommand(userDao));
         commandMap.put("select",new SelectCommand(userDao));
         commandMap.put("insert",new InsertCommand(userDao));
@@ -38,7 +36,11 @@ public class ServletDriver extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            doGet(request, response);
+        try {
+            process(request,response);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 

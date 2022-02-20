@@ -17,7 +17,7 @@
         <div class="card-body">
             <c:if test="${user != null}">
             <form action="ServletDriver" method="post">
-                    <input type="hidden" name="command" value="edit">
+                    <input type="hidden" name="command" value="update">
                 </c:if>
                 <c:if test="${user == null}">
                 <form action="ServletDriver" method="post">
