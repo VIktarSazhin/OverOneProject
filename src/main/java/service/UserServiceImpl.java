@@ -44,20 +44,6 @@ public class UserServiceImpl implements UserService {
         return s.matches(regex);
     }
 
-
-    @Override
-    public User selectUser(int id) {
-        User user = userDao.selectUser(id);
-        try {
-            if (user == null) throw new NullPointerException();
-
-            return userDao.selectUser(id);
-
-        } catch (NullPointerException e) {
-            throw new NullPointerException("not found user");
-        }
-    }
-
     @Override
     public List<User> selectAllUsers() {
         return userDao.selectAllUsers();

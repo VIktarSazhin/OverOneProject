@@ -23,12 +23,10 @@ public class ServletDriver extends HttpServlet {
     public void init() {
         UserDao userDao = new UserDao();
         new UserServiceImpl(userDao);
-        commandMap.put("new",new ShowNewCommand(userDao));
         commandMap.put("select",new SelectCommand(userDao));
         commandMap.put("insert",new InsertCommand(userDao));
         commandMap.put("delete",new DeleteCommand(userDao));
         commandMap.put("update",new UpdateCommand(userDao));
-        commandMap.put("edit",new ShowEditCommand(userDao));
         commandMap.put("AnnaListActivity",new AnnaListCommand(userDao));
         commandMap.put("GetJSON", new JSONSenderCommand(userDao));
     }

@@ -9,15 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-</head>
-<body>
-
-<p>
     <% UserServiceImpl userService = new UserServiceImpl(new UserDao()); %>
     <% String json = userService.getJSON(); %>
     <%= json%>
-</p>
-
-</body>
 </html>

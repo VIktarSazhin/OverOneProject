@@ -48,16 +48,6 @@ public class UserDao {
         return jsonString;
     }
 
-    public void createFileJson(JSONObject jsonObject) {
-        try {
-            FileWriter file = new FileWriter("src/main/resources/output.json");
-            file.write(jsonObject.toJSONString());
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void addUserActivity(User user) {
         selectUser(user.getId());
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities) VALUES " +
@@ -112,7 +102,9 @@ public class UserDao {
                 String userName = rs.getString("user_name");
                 double spendTime = rs.getDouble("spend_time");
                 String activities = rs.getString("activities");
-                users.add(new User(id, userName, spendTime, activities));
+                Timestamp timestamp = rs.getTimestamp("time_to_add");
+
+                users.add(new User(id, userName, spendTime, activities, timestamp));
             }
         } catch (SQLException e) {
             printSQLException(e);
