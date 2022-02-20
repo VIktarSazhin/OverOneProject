@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
         try{
             if (user == null) throw new IllegalArgumentException();
             if (user.getTimeToSpend() < 0 || user.getTimeToSpend() > 24) throw new NumberFormatException();
-            //user.getUserName().replaceAll();
+            if (isDigit(user.getUserName())) throw new NumberFormatException();
 
                 User newUser = User.builder()
                         .userName(user.getUserName())
@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("not found user");
         }
     }
+    private static boolean isDigit(String s) throws NumberFormatException {
+        String regex = "\\d+";
+        return !s.matches(regex);
+    }
+
 
     @Override
     public User selectUser(int id) {
