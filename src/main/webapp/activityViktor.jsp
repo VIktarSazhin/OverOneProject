@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Activity of Anna Zanko</title>
+    <title>Activity of Alex Frost</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
@@ -12,7 +12,7 @@
         <h3 class="text-center">Activities of Viktor Sazhin</h3>
         <hr>
         <div class="container text-left">
-            <a href="<%=request.getContextPath()%>/addActivityForm" class="btn btn-success">Add</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=select" class="btn btn-secondary">List activity</a>
         </div>
         <p></p>
         <br>
@@ -43,7 +43,7 @@
                         <c:out value="${user.timeToAdd}" />
                     </td>
                     <td>
-                        <a href="edit?id=<c:out value='${user.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="delete?id=<c:out value='${user.id}' />">Delete</a>
+                        <a href="servletDriver?command=delete&id=<c:out value='${user.id}' />">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

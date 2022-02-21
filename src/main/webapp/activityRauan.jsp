@@ -2,14 +2,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Activity of Alex Frost</title>
+    <title>Activity of Rauan Maksut</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <br>
 <div class="row">
     <div class="container">
-        <h3 class="text-center">Activities of Viktor Sazhin</h3>
+        <h3 class="text-center">Activity of Rauan Maksut</h3>
         <hr>
         <div class="container text-left">
             <a href="<%=request.getContextPath()%>/ServletDriver?command=select" class="btn btn-secondary">List activity</a>
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
 
-            <c:forEach var="user" items="${listViktorActivity}">
+            <c:forEach var="user" items="${listRauanActivity}">
                 <tr>
                     <td>
                         <c:out value="${user.userName}" />

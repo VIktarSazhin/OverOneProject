@@ -23,18 +23,22 @@ public class ServletDriver extends HttpServlet {
     public void init() {
         UserDao userDao = new UserDao();
         new UserServiceImpl(userDao);
-        commandMap.put("select",new SelectCommand(userDao));
-        commandMap.put("insert",new InsertCommand(userDao));
-        commandMap.put("delete",new DeleteCommand(userDao));
-        commandMap.put("update",new UpdateCommand(userDao));
-        commandMap.put("AnnaListActivity",new AnnaListCommand(userDao));
+        commandMap.put("select", new SelectCommand(userDao));
+        commandMap.put("insert", new InsertCommand(userDao));
+        commandMap.put("delete", new DeleteCommand(userDao));
+        commandMap.put("AnnaListActivity", new AnnaListCommand(userDao));
+        commandMap.put("ViktorListActivity", new ViktorListCommand(userDao));
+        commandMap.put("AlexListActivity", new AlexListCommand(userDao));
+        commandMap.put("SergeyListActivity", new SergeyListCommand(userDao));
+        commandMap.put("VasyaListActivity", new VasyaListCommand(userDao));
+        commandMap.put("RauanListActivity", new RauanListCommand(userDao));
         commandMap.put("GetJSON", new JSONSenderCommand(userDao));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            process(request,response);
+            process(request, response);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -43,7 +47,7 @@ public class ServletDriver extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            process(request,response);
+            process(request, response);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -52,36 +56,33 @@ public class ServletDriver extends HttpServlet {
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String commandName = request.getParameter("command");
         Command command = get(commandName);
-        String forward = command.execute(request,response);
-        if (forward != null){
+        String forward = command.execute(request, response);
+        if (forward != null) {
             RequestDispatcher disp = request.getRequestDispatcher(forward);
-            disp.forward(request,response);
+            disp.forward(request, response);
         }
-//        String redirectUrl = command.execute(request,response);
-//        response.sendRedirect(redirectUrl);
     }
 
-    private void redirect(Command command,HttpServletRequest request,HttpServletResponse response) throws ServletException, SQLException, IOException {
-        String redirectUrl = command.execute(request,response);
+    private void redirect(Command command, HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException, IOException {
+        String redirectUrl = command.execute(request, response);
         response.sendRedirect(redirectUrl);
     }
 
-    private void forward(Command command, HttpServletResponse response,HttpServletRequest request) throws ServletException, SQLException, IOException {
-        String forward = command.execute(request,response);
+    private void forward(Command command, HttpServletResponse response, HttpServletRequest request) throws ServletException, SQLException, IOException {
+        String forward = command.execute(request, response);
         if (forward != null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
-            dispatcher.forward(request,response);
+            dispatcher.forward(request, response);
         }
     }
 
-    private static Command get(String commandName){
+    private static Command get(String commandName) {
         try {
-
             if (commandName == null || !commandMap.containsKey(commandName)) {
                 throw new NullPointerException();
             }
             return commandMap.get(commandName);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             throw new NullPointerException();
         }
     }

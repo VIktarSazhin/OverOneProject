@@ -3,12 +3,9 @@ package service;
 import dao.UserDao;
 import entity.User;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Scanner;
 
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
@@ -22,7 +19,6 @@ public class UserServiceImpl implements UserService {
         try {
             if (user == null) throw new IllegalArgumentException();
             if (user.getTimeToSpend() < 0 || user.getTimeToSpend() > 24) throw new NumberFormatException();
-//            if (isDigit(user.getUserName())) throw new NumberFormatException();
 
             User newUser = User.builder()
                     .userName(user.getUserName())
@@ -39,11 +35,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private static boolean isDigit(String s) throws NumberFormatException {
-        String regex = "\\d+";
-        return s.matches(regex);
-    }
-
     @Override
     public List<User> selectAllUsers() {
         return userDao.selectAllUsers();
@@ -55,31 +46,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(int id) throws SQLException {
-        User user = userDao.selectUser(id);
-        try {
-            if (user == null) throw new NullPointerException();
-
-            userDao.deleteUser(id);
-
-        } catch (NullPointerException e) {
-            throw new NullPointerException("not found user");
-        }
+    public List<User> selectViktorActivity() {
+        return userDao.selectActivityViktor();
     }
 
     @Override
-    public void updateUser(User user) throws SQLException {
-        User newUser = userDao.selectUser(user.getId());
+    public List<User> selectAlexActivity() {
+        return userDao.selectActivityAlex();
+    }
+
+    @Override
+    public List<User> selectVasyaActivity() {
+        return userDao.selectActivityVasya();
+    }
+
+    @Override
+    public List<User> selectRauanActivity() {
+        return userDao.selectActivityRauan();
+    }
+
+    @Override
+    public List<User> selectSergeyActivity() {
+        return userDao.selectActivitySergey();
+    }
+
+    @Override
+    public void deleteUser(int id) throws SQLException {
+        User user = userDao.selectUser(id);
+        LocalDateTime userDate = user.getTimeToAdd().toLocalDateTime();
+        LocalDateTime previousDay = LocalDateTime.now().minusDays(1);
         try {
-            if (newUser == null) throw new IllegalArgumentException();
-            if (user.getTimeToSpend() < 0 || user.getTimeToSpend() > 24) throw new NumberFormatException();
-
-            userDao.updateUser(user);
-
-        } catch (NumberFormatException exception) {
-            throw new NumberFormatException("incorrect time");
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("not found user");
+            if (userDate.compareTo(previousDay) >= 0) {
+                userDao.deleteUser(id);
+            }
+        } catch (NullPointerException e) {
+            throw new NullPointerException("not found user");
         }
     }
 

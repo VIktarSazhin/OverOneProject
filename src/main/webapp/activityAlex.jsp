@@ -9,7 +9,7 @@
 <br>
 <div class="row">
     <div class="container">
-        <h3 class="text-center">Activities of Viktor Sazhin</h3>
+        <h3 class="text-center">Activities of Alex Frost</h3>
         <hr>
         <div class="container text-left">
             <a href="<%=request.getContextPath()%>/ServletDriver?command=select" class="btn btn-secondary">List activity</a>
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
 
-            <c:forEach var="user" items="${listViktorActivity}">
+            <c:forEach var="user" items="${listAlexActivity}">
                 <tr>
                     <td>
                         <c:out value="${user.userName}" />

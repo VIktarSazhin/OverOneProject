@@ -12,7 +12,7 @@
     <h3 class="text-center">Activities of Anna Zanko</h3>
     <hr>
     <div class="container text-left">
-      <a href="<%=request.getContextPath()%>/ServletDriver?command=select" class="btn btn-btn-link">List activity</a>
+      <a href="<%=request.getContextPath()%>/ServletDriver?command=select" class="btn btn-secondary">List activity</a>
     </div>
 <p></p>
     <br>
@@ -42,7 +42,7 @@
           <td>
             <c:out value="${user.timeToAdd}" />
           </td>
-          <td><a href="servletDriver?command=edit&id=<c:out value='${user.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;
+          <td>
             <a href="servletDriver?command=delete&id=<c:out value='${user.id}' />">Delete</a>
           </td>
         </tr>

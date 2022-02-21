@@ -40,14 +40,13 @@
 
                         <fieldset class="form-group">
                             <label>User Name</label>
-<%--                            <input type="text" value="<c:out value='${user.userName}' />" class="form-control" name="user_name" required="required">--%>
                             <select class="form-control" id="exampleFormControlSelect1" name="user_name" required="required">
                                 <option>Anna Zanko</option>
                                 <option>Viktor Sazhin</option>
                                 <option>Rauan Maksut</option>
                                 <option>Alex Frost</option>
                                 <option>Sergey Peretyagin</option>
-                                <option>Vasilyi Sholkov</option>
+                                <option>Vasily Sholkov</option>
                             </select>
                         </fieldset>
 

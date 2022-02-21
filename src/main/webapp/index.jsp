@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">User Manager Application Test</h1>
+    <h1 class="text-center">User Manager Application</h1>
     <hr>
     <div class="container text-left">
         <a href="<%=request.getContextPath()%>/ServletDriver?command=select" class="btn btn-success">Start app</a>
