@@ -16,8 +16,9 @@ public class SelectCommand implements Command {
     public SelectCommand(UserDao userDao) {
         this.userDao = userDao;
     }
+
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response){
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = new UserServiceImpl(userDao);
         List<User> listUser = userService.selectAllUsers();
         request.setAttribute("listUser", listUser);

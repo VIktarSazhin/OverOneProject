@@ -7,7 +7,6 @@ import service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class DeleteCommand implements Command {
     public DeleteCommand(UserDao userDao) {
         this.userDao = userDao;
     }
-
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
@@ -30,7 +28,5 @@ public class DeleteCommand implements Command {
         request.getRequestDispatcher("user-list.jsp");
         return "/user-list.jsp";
     }
-
-
 }
 

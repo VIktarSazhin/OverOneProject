@@ -63,19 +63,6 @@ public class ServletDriver extends HttpServlet {
         }
     }
 
-    private void redirect(Command command, HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException, IOException {
-        String redirectUrl = command.execute(request, response);
-        response.sendRedirect(redirectUrl);
-    }
-
-    private void forward(Command command, HttpServletResponse response, HttpServletRequest request) throws ServletException, SQLException, IOException {
-        String forward = command.execute(request, response);
-        if (forward != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
-            dispatcher.forward(request, response);
-        }
-    }
-
     private static Command get(String commandName) {
         try {
             if (commandName == null || !commandMap.containsKey(commandName)) {

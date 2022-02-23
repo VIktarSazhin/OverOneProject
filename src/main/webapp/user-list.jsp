@@ -7,6 +7,7 @@
     <title>User Activity</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
 </head>
 <body>
 <br>
@@ -16,18 +17,12 @@
         <h3 class="text-center">List of users activities</h3>
         <hr class="line">
         <div class="container text-center">
-            <a href="<%=request.getContextPath()%>/ServletDriver?command=AnnaListActivity" class="btn btn-danger">Anna
-                Zanko</a>
-            <a href="<%=request.getContextPath()%>/ServletDriver?command=ViktorListActivity" class="btn btn-danger">Viktor
-                Sazhin</a>
-            <a href="<%=request.getContextPath()%>/ServletDriver?command=RauanListActivity" class="btn btn-danger">Rauan
-                Maksut</a>
-            <a href="<%=request.getContextPath()%>/ServletDriver?command=AlexListActivity" class="btn btn-danger">Alex
-                Frost</a>
-            <a href="<%=request.getContextPath()%>/ServletDriver?command=VasyaListActivity" class="btn btn-danger">Vasily
-                Sholkov</a>
-            <a href="<%=request.getContextPath()%>/ServletDriver?command=SergeyListActivity" class="btn btn-danger">Sergey
-                Peretyagin</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=AnnaListActivity" class="btn btn-danger">Anna Zanko</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=ViktorListActivity" class="btn btn-danger">Viktor Sazhin</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=RauanListActivity" class="btn btn-danger">Rauan Maksut</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=AlexListActivity" class="btn btn-danger">Alex Frost</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=VasyaListActivity" class="btn btn-danger">Vasily Sholkov</a>
+            <a href="<%=request.getContextPath()%>/ServletDriver?command=SergeyListActivity" class="btn btn-danger">Sergey Peretyagin</a>
         </div>
         <br>
         <div class="container text-left">

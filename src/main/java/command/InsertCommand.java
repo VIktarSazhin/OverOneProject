@@ -7,7 +7,6 @@ import service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 public class InsertCommand implements Command {
@@ -16,7 +15,6 @@ public class InsertCommand implements Command {
     public InsertCommand(UserDao userDao) {
         this.userDao = userDao;
     }
-
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response){

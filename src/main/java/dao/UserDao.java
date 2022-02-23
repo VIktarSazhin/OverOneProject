@@ -28,7 +28,7 @@ public class UserDao {
         JSONObject jsonObject = new JSONObject();
         String jsonString = "";
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT user_name, spend_time, activities FROM users")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT user_name, spend_time, activities FROM users where users.time_to_add >= date_trunc('hour', current_timestamp - interval '24 hour')")) {
             JSONArray array = new JSONArray();
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -44,19 +44,6 @@ public class UserDao {
             e.printStackTrace();
         }
         return jsonString;
-    }
-
-    public void addUserActivity(User user) {
-        selectUser(user.getId());
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (user_name, spend_time, activities) VALUES " +
-                " (? , ?, ?);")) {
-            preparedStatement.setString(1, user.getUserName());
-            preparedStatement.setDouble(2, user.getTimeToSpend());
-            preparedStatement.setString(3, user.getActivity());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            printSQLException(e);
-        }
     }
 
     public void insertUser(User user) {

@@ -15,8 +15,9 @@ public class AnnaListCommand implements Command {
     public AnnaListCommand(UserDao userDao) {
         this.userDao = userDao;
     }
+
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response){
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = new UserServiceImpl(userDao);
         List<User> listAnnaActivity = userService.selectAnnaActivity();
         request.setAttribute("listAnnaActivity", listAnnaActivity);
