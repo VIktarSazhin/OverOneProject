@@ -7,6 +7,7 @@ import service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlexListCommand implements Command {
@@ -20,6 +21,7 @@ public class AlexListCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService userService = new UserServiceImpl(userDao);
         List<User> listAlexActivity = userService.selectAlexActivity();
+        L
         request.setAttribute("listAlexActivity", listAlexActivity);
         request.getRequestDispatcher("activityAlex.jsp");
         return "activityAlex.jsp";
