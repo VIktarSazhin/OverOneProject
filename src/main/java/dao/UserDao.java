@@ -10,8 +10,7 @@ import java.util.List;
 
 public class UserDao {
 
-    public UserDao() {
-    }
+    public UserDao() {}
 
     protected Connection getConnection() {
         Connection connection = null;
