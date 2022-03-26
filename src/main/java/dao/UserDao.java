@@ -12,6 +12,7 @@ public class UserDao {
 
     public UserDao() {}
 
+
     protected Connection getConnection() {
         Connection connection = null;
         try {
