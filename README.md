@@ -12,4 +12,3 @@
 * Lombok, Maven
 * Pattern command
 * Tomcat + Jenkins deploy with git Webhook
-* GSON Object
